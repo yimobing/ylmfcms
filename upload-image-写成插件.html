@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <title>前端图片压缩并上传(写成插件)</title>
+    <link type="text/css" rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <h1>前端图片压缩并上传(写成插件)</h1>
+    <div class="panel-upload">
+        <div class="img-upload"><i>上传图片</i></div>
+        <input type="file" name="files" id="file" class="img-input" accept="image/*" multiple="multiple">
+    </div><!--/.panel-upload-->
+    <div class="panel-show" id="imageList"></div><!--/.panel-show-->
+
+
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/meui-canvas.js"></script>
+    <script type="text/javascript">
+
+        /*+--------------------------------+*/
+        //=====全局变量
+        var list = document.getElementById('imageList');
+
+        /*+--------------------------------+*/
+        window.onload = function () {
+            var file = document.getElementById("file");
+            meuiCanvas.uploadFile({
+                selector: file, //上传图片节点Dom对象
+                maxWidth: 300, //图片最大宽度(PX). 尺寸最大可设1200px
+                maxSize: 200, //图片最大质量(KB). 质量最大200kb
+                quality: 0.7, //图片压缩系数, 0-1之间
+                callBack: function(arr){ //回调
+                    //console.log('arr:',arr);
+                    var imgDomArray = [];
+                    //创建img节点
+                    for(var i = 0; i < arr.length; i++){
+                        var image = document.createElement('img');
+                        image.src = '';
+                        list.appendChild(image);
+                        imgDomArray.push(image);
+                    }
+                    //展示图片
+                    for(var i = 0; i < imgDomArray.length; i++){
+                        var e = arr[i];
+                        var index = e.index, base64 = e.url, files = e.files, oldFiles = e.oldFiles;
+                        imgDomArray[i].src = '' + base64;
+
+                        //console.log('图片索引：', index, '\n图片信息(压缩后)：', files, '\n图片信息(压缩前)：', oldFiles, '\n图片地址：', base64);
+                        //var imgUrl = base64; //base64数据
+                        //接口调用,比如说ajax,将图片上传到服务器
+                        //..
+                    }
+
+               }
+           })
+        }
+    
+    </script>
+</body>
+
+</html>
